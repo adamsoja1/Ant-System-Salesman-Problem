@@ -4,8 +4,7 @@ from distance_matrix import prepare_matrix,init_pheromones
 from copy import deepcopy
 import time
 
-DIST_MATRIX = prepare_matrix('cities_4.txt')
-
+DIST_MATRIX = prepare_matrix('C:/Users/adame/Desktop/Ant-System-Salesman-Problem/src/cities_4.txt')
 PHEROMONES = init_pheromones(DIST_MATRIX)
 
 
@@ -43,6 +42,8 @@ class Ant:
                 vals.append(DIST_MATRIX[route[i]][route[i+1]])
             vals.append(DIST_MATRIX[route[-1]][route[0]])
             return np.sum(vals)
+        else:
+            raise ValueError("Length of visited cities isnt equal to count_cities")
        
 
 
@@ -89,8 +90,7 @@ class Ant:
     
     def move(self):
         for i in range(len(self.cities_to_visit)):
-            city = self.decision()
-            self.visit(city)
+            self.visit(self.decision())
                 
         
     
@@ -219,11 +219,13 @@ class System:
         self.run_system()
         
         return self.best_ant
-        
-system = System(population_size=10,
-                cities_count=10,
-                n_generations=200)
 
-results = system.get_results()
-print("    ")
-print(min(results))
+        
+if __name__ == "__main__":
+    system = System(population_size=10,
+                    cities_count=10,
+                    n_generations=200)
+    
+    results = system.get_results()
+    print("    ")
+    print(min(results))
