@@ -33,7 +33,8 @@ class Ant:
               city:int):
         self.visited_cities.append(city)
         self.cities_to_visit.remove(city)
-    
+        self.current_city = city
+        
     def total_cost(self):
         if len(self.visited_cities) == self.cities_count:
             route = self.visited_cities
@@ -53,7 +54,6 @@ class Ant:
        
         temp_phero = []
         distances = []
-        curr = self.current_city
         for i in self.cities_to_visit:
             distances.append(DIST_MATRIX[self.current_city][i])
             temp_phero.append(PHEROMONES[self.current_city][i])
@@ -68,8 +68,8 @@ class Ant:
         temp_sum = np.sum(distances*temp_phero)
         
         a_ij = []
-        for i in range(len(self.cities_to_visit)):
-            temp = (PHEROMONES[self.current_city][self.cities_to_visit[i]]**self.alpha) * ((1/DIST_MATRIX[self.current_city][self.cities_to_visit[i]]) ** self.beta)
+        for city in self.cities_to_visit:
+            temp = (PHEROMONES[self.current_city][city]**self.alpha) * ((1/DIST_MATRIX[self.current_city][city]) ** self.beta)
             a_ij.append(temp/temp_sum)
         
         probs = []
@@ -79,7 +79,6 @@ class Ant:
 
 
     def decision(self):
-        
         probs = self.get_propabilities()
         random_number = np.random.uniform(0,1)
         number = 0
@@ -119,7 +118,7 @@ class Ant:
             ant_phero[self.visited_cities[i+1]][self.visited_cities[i]] += (1/self.total_cost())
         ant_phero[self.visited_cities[-1]][self.visited_cities[0]] += (1/self.total_cost())
         ant_phero[self.visited_cities[0]][self.visited_cities[-1]] += (1/self.total_cost())
-   
+        cities = self.visited_cities
         return ant_phero
 
 
@@ -145,6 +144,7 @@ class Population:
     def get_starting_cities(self):
         for ant in self.ants:
             print(ant.start_city)
+            
     def move_ants(self):
         for ant in self.ants:
             ant.move()
@@ -186,7 +186,8 @@ class Population:
                     
                     PHEROMONES[i][j] +=  temp[i][j]
                     PHEROMONES[j][i] +=  temp[j][i]
-        
+                    
+
 
 class System:
     def __init__(self,
@@ -228,4 +229,5 @@ if __name__ == "__main__":
     
     results = system.get_results()
     print("    ")
-    print(min(results))
+    for i in results:
+        print(i)

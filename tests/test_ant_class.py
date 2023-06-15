@@ -41,7 +41,7 @@ def test_reset_to_default():
     ant.reset_to_default()
     
     len_cities_to_visit = 9
-    current_city = None
+    current_city = ant.start_city
     expected_visited = 1
     cities_to_visit_len = 9
     

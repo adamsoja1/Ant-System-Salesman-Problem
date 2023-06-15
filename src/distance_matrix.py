@@ -77,7 +77,7 @@ def init_pheromones(DIST_MATRIX):
     ln = len(DIST_MATRIX)
     for i in range(ln):
         for j in range(i+1, ln):
-            dist = 0.3
+            dist = 0.1
             
             if i not in pheromone_matrix:
                 pheromone_matrix[i] = {}
