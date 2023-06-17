@@ -2,7 +2,25 @@ import numpy as np
 import random
 
 
+def draw_route(route_indexes,x,y):
+    import matplotlib.pyplot as plt
 
+    fig, ax = plt.subplots()
+    
+    for i in range(len(x)):
+        ax.plot(x[i], y[i], marker='x', markersize=5)
+        ax.text(x[i]+0.2, y[i]+0.2, f'{i+1}')
+    
+    for i in range(len(route_indexes)-1):
+        idx1 = route_indexes[i]
+        idx2 = route_indexes[i+1]
+        ax.plot([x[idx1], x[idx2]], [y[idx1], y[idx2]], 'k-')
+    idx1 = route_indexes[0]
+    idx2 = route_indexes[-1]    
+    ax.plot([x[idx1] , x[idx2] ], [y[idx1],  y[idx2] ],'k-')
+    
+    
+    
 def load_file(path:str)->tuple:
     
     

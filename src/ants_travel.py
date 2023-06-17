@@ -1,9 +1,9 @@
 import numpy as np
 import random
-from distance_matrix import prepare_matrix,init_pheromones
+from distance_matrix import prepare_matrix,init_pheromones,load_file,draw_route
 from copy import deepcopy
 import time
-
+import matplotlib.pyplot as plt
 
 class Ant:
     def __init__(self,
@@ -148,8 +148,7 @@ class Population:
      
     def get_best_ant(self):
         costs = [self.ants[i].total_cost() for i in range(len(self.ants))]
-        # self.ants[costs.index(min(costs))],
-        return min(costs)
+        return self.ants[costs.index(min(costs))].visited_cities,min(costs)
     
     def reset(self):
         for ant in self.ants:
@@ -198,15 +197,10 @@ class System:
         self.best_ant = []
     
     def go(self):
-        
         self.population.move_ants()
         self.population.update_pheromone()
-    
         self.best_ant.append(self.population.get_best_ant())
-
-
         self.population.reset()
-        
         
     def run_system(self):
         for i in range(self.n_generations):
@@ -214,20 +208,47 @@ class System:
 
         
     def get_results(self):
-        self.run_system()
-        
         return self.best_ant
-
+    
+    def get_best_ant(self):
+        results = self.get_results()
+        ants = []
+        path_cost = []
+        for ant,cost in results:
+            ants.append(ant)
+            path_cost.append(cost)
         
+        best_ant = path_cost.index(min(path_cost))
+        return ants[best_ant]
+        
+    def visualize_path(self):
+        x,y=load_file(FILE_PATH)
+        ant = self.get_best_ant()
+        draw_route(ant,x,y)
+        
+    
 if __name__ == "__main__":
 
-    DIST_MATRIX = prepare_matrix('cities_4.txt')
+    
+    FILE_PATH = 'cities_4.txt'
+    DIST_MATRIX = prepare_matrix(FILE_PATH)
     PHEROMONES = init_pheromones(DIST_MATRIX)
 
     system = System(population_size=10,
                     cities_count=10,
                     n_generations=200)
     
-    results = system.get_results()
-    print("    ")
-    print(min(results))
+    system.run_system()
+    
+    
+    
+    system.visualize_path()
+    
+    
+    
+    
+    
+    
+    
+    
+    
