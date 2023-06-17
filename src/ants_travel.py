@@ -229,5 +229,4 @@ if __name__ == "__main__":
     
     results = system.get_results()
     print("    ")
-    for i in results:
-        print(i)
+    print(min(results))

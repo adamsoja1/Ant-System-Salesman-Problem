@@ -67,7 +67,19 @@ def test_start_city():
     assert expected == ant.start_city,"Cities do not match after resseting an ant"
     
     
+def test_move_ant():
+    DIST_MATRIX = prepare_matrix('src/cities_4.txt')
     
+    PHEROMONES = init_pheromones(DIST_MATRIX)
+    ant = Ant(10)
+
+    cities_to_visit_before = len(ant.cities_to_visit)
+
+    ant.move()
+
+    cities_to_visit_after = len(ant.cities_to_visit)
+
+    assert cities_to_visit_before != cities_to_visit_after, "Ant doesnt move corectly!"
     
     
     
