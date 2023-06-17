@@ -6,11 +6,11 @@ sys.path.append("src")
 
 from src.ants_travel import Ant
 from src.distance_matrix import  prepare_matrix,init_pheromones
+DIST_MATRIX = prepare_matrix('tests/cities_4.txt')
 
 
 def test_ant_total_cost():
-    DIST_MATRIX = prepare_matrix('cities_4.txt')
-    
+    DIST_MATRIX = prepare_matrix('tests/cities_4.txt')
     PHEROMONES = init_pheromones(DIST_MATRIX)
     
     expected_cost =  43.629476033
@@ -21,8 +21,7 @@ def test_ant_total_cost():
     
     
 def test_sum_of_propabilities():
-    DIST_MATRIX = prepare_matrix('cities_4.txt')
-    
+    DIST_MATRIX = prepare_matrix('tests/cities_4.txt')
     PHEROMONES = init_pheromones(DIST_MATRIX)
     
     ant = Ant(10)
@@ -32,7 +31,7 @@ def test_sum_of_propabilities():
     
     
 def test_reset_to_default():
-    DIST_MATRIX = prepare_matrix('cities_4.txt')
+    DIST_MATRIX = prepare_matrix('tests/cities_4.txt')
     
     PHEROMONES = init_pheromones(DIST_MATRIX)
     
@@ -55,7 +54,7 @@ def test_reset_to_default():
     
     
 def test_start_city():
-    DIST_MATRIX = prepare_matrix('cities_4.txt')
+    DIST_MATRIX = prepare_matrix('tests/cities_4.txt')
     
     PHEROMONES = init_pheromones(DIST_MATRIX)
     
@@ -68,7 +67,7 @@ def test_start_city():
     
     
 def test_move_ant():
-    DIST_MATRIX = prepare_matrix('src/cities_4.txt')
+    DIST_MATRIX = prepare_matrix('tests/cities_4.txt')
     
     PHEROMONES = init_pheromones(DIST_MATRIX)
     ant = Ant(10)
@@ -84,8 +83,27 @@ def test_move_ant():
     
     
     
+def test_decision():
+    DIST_MATRIX = prepare_matrix('tests/cities_4.txt')
     
+    PHEROMONES = init_pheromones(DIST_MATRIX)
+    ant = Ant(10)
+
+    expected = [1]
     
+    actual = [ant.decision()]
+
+    possible_indexes = [0,1,2,3,4,5,6,7,8,9]
+    
+    expected_bool = True
+    
+    if actual[0] in possible_indexes:actual_bool=True
+    
+    assert len(expected) == len(actual), "Decision isn't an index,single value"
+    assert expected_bool == actual_bool, "Index of decision is out of range! - range [0-9]"
+
+
+        
     
     
     

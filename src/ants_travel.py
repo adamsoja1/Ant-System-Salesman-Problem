@@ -5,6 +5,10 @@ from copy import deepcopy
 import time
 import matplotlib.pyplot as plt
 
+FILE_PATH = 'src/cities_4.txt'
+DIST_MATRIX = prepare_matrix(FILE_PATH)
+PHEROMONES = init_pheromones(DIST_MATRIX)
+
 class Ant:
     def __init__(self,
                  cities_count:int):
@@ -227,22 +231,22 @@ class System:
         draw_route(ant,x,y)
         
     
-if __name__ == "__main__":
+# if __name__ == "__main__":
 
     
-    FILE_PATH = 'cities_4.txt'
-    DIST_MATRIX = prepare_matrix(FILE_PATH)
-    PHEROMONES = init_pheromones(DIST_MATRIX)
+#     FILE_PATH = 'cities_4.txt'
+#     DIST_MATRIX = prepare_matrix(FILE_PATH)
+#     PHEROMONES = init_pheromones(DIST_MATRIX)
 
-    system = System(population_size=10,
-                    cities_count=10,
-                    n_generations=200)
+#     system = System(population_size=10,
+#                     cities_count=10,
+#                     n_generations=200)
     
-    system.run_system()
+#     system.run_system()
     
     
     
-    system.visualize_path()
+#     system.visualize_path()
     
     
     
