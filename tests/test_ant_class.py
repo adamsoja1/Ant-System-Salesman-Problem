@@ -9,7 +9,7 @@ from src.distance_matrix import  prepare_matrix,init_pheromones
 
 
 def test_ant_total_cost():
-    DIST_MATRIX = prepare_matrix('src/cities_4.txt')
+    DIST_MATRIX = prepare_matrix('cities_4.txt')
     
     PHEROMONES = init_pheromones(DIST_MATRIX)
     
@@ -21,7 +21,7 @@ def test_ant_total_cost():
     
     
 def test_sum_of_propabilities():
-    DIST_MATRIX = prepare_matrix('src/cities_4.txt')
+    DIST_MATRIX = prepare_matrix('cities_4.txt')
     
     PHEROMONES = init_pheromones(DIST_MATRIX)
     
@@ -32,7 +32,7 @@ def test_sum_of_propabilities():
     
     
 def test_reset_to_default():
-    DIST_MATRIX = prepare_matrix('src/cities_4.txt')
+    DIST_MATRIX = prepare_matrix('cities_4.txt')
     
     PHEROMONES = init_pheromones(DIST_MATRIX)
     
@@ -55,7 +55,7 @@ def test_reset_to_default():
     
     
 def test_start_city():
-    DIST_MATRIX = prepare_matrix('src/cities_4.txt')
+    DIST_MATRIX = prepare_matrix('cities_4.txt')
     
     PHEROMONES = init_pheromones(DIST_MATRIX)
     

@@ -4,9 +4,6 @@ from distance_matrix import prepare_matrix,init_pheromones
 from copy import deepcopy
 import time
 
-DIST_MATRIX = prepare_matrix('C:/Users/adame/Desktop/Ant-System-Salesman-Problem/src/cities_4.txt')
-PHEROMONES = init_pheromones(DIST_MATRIX)
-
 
 class Ant:
     def __init__(self,
@@ -223,6 +220,10 @@ class System:
 
         
 if __name__ == "__main__":
+
+    DIST_MATRIX = prepare_matrix('cities_4.txt')
+    PHEROMONES = init_pheromones(DIST_MATRIX)
+
     system = System(population_size=10,
                     cities_count=10,
                     n_generations=200)
