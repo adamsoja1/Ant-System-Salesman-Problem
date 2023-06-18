@@ -1,6 +1,6 @@
 import numpy as np
 import random
-from distance_matrix import prepare_matrix,init_pheromones,load_file,draw_route
+from distance_matrix import prepare_matrix,init_pheromones,load_file
 from copy import deepcopy
 import time
 import matplotlib.pyplot as plt
@@ -19,7 +19,7 @@ class Ant:
         self.cities_count = cities_count
         self.start_city = np.random.randint(0,cities_count-1)
         self.current_city = None
-        
+        self.routes = []
         
         self.visited_cities = []
         self.cities_to_visit = [i for i in range(cities_count)]
@@ -124,6 +124,7 @@ class Ant:
 
 
     def reset_to_default(self):
+        self.routes.append(self.visited_cities)
         self.current_city = None
         self.visited_cities = []
         self.cities_to_visit = [i for i in range(10)]
@@ -223,32 +224,172 @@ class System:
             path_cost.append(cost)
         
         best_ant = path_cost.index(min(path_cost))
-        return ants[best_ant]
+        return ants[best_ant],min(path_cost)
         
-    def visualize_path(self):
+    def visualize_path_all(self):
         x,y=load_file(FILE_PATH)
-        ant = self.get_best_ant()
-        draw_route(ant,x,y)
+        self.draw_route_all_best(x,y)
+    
+    
+    def visualize_path_best(self):
+        x,y=load_file(FILE_PATH)
+        self.draw_only_best(x,y)
+    
+    
+    def visualize_path_all_no_best(self):
+        x,y=load_file(FILE_PATH)
+        self.draw_route_all(x,y)
+    
+    
+
         
     
-# if __name__ == "__main__":
+    def draw_route_all_best(self,x,y):
+        import matplotlib.pyplot as plt
+        
+        path_cost = self.get_best_ant()[1]
+        fig, ax = plt.subplots(figsize = (25,14))
+        
+        
+        for ant in self.population.ants:
+            for route_indexes in ant.routes:
+                for i in range(len(route_indexes)-1):
+                    idx1 = route_indexes[i]
+                    idx2 = route_indexes[i+1]
+                    ax.plot([x[idx1], x[idx2]], [y[idx1], y[idx2]], 'k-',linewidth =0.01,color = 'blue')
+                idx1 = route_indexes[0]
+                idx2 = route_indexes[-1]    
+                ax.plot([x[idx1] , x[idx2] ], [y[idx1],  y[idx2] ],'k-',linewidth =0.01,color = 'blue')
+        
+        
+        
+        
+        route_indexes = self.get_best_ant()[0]
+
+        for i in range(len(x)):
+            ax.plot(x[i], y[i], marker='x', markersize=30)
+            ax.text(x[i]+0.2, y[i]+0.2, f'{i+1}',fontsize=40)
+        
+        for i in range(len(route_indexes)-1):
+            idx1 = route_indexes[i]
+            idx2 = route_indexes[i+1]
+            ax.plot([x[idx1], x[idx2]], [y[idx1], y[idx2]], 'k-',linewidth = 8,color = 'red')
+        idx1 = route_indexes[0]
+        idx2 = route_indexes[-1]    
+        ax.plot([x[idx1] , x[idx2] ], [y[idx1],  y[idx2] ],'k-',linewidth =8,color = 'red')
+        plt.title(f"The best ant's path cost = {path_cost}",fontsize=40)
+        ax.spines['bottom'].set_visible(False) 
+        ax.spines['left'].set_visible(False)   
+        
+    
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.set_xticks([]) 
+        ax.set_yticks([]) 
+        plt.legend()
 
     
-#     FILE_PATH = 'cities_4.txt'
-#     DIST_MATRIX = prepare_matrix(FILE_PATH)
-#     PHEROMONES = init_pheromones(DIST_MATRIX)
+    
+    
+    
+    def draw_only_best(self,x,y):
+        import matplotlib.pyplot as plt
+        
+        path_cost = self.get_best_ant()[1]
+        fig, ax = plt.subplots(figsize = (25,14))
+        
+        route_indexes = self.get_best_ant()[0]
 
-#     system = System(population_size=10,
-#                     cities_count=10,
-#                     n_generations=200)
+        for i in range(len(x)):
+            ax.plot(x[i], y[i], marker='x', markersize=30)
+            ax.text(x[i]+0.2, y[i]+0.2, f'{i+1}',fontsize=40)
+        
+        for i in range(len(route_indexes)-1):
+            idx1 = route_indexes[i]
+            idx2 = route_indexes[i+1]
+            ax.plot([x[idx1], x[idx2]], [y[idx1], y[idx2]], 'k-',linewidth = 8,color = 'red')
+        idx1 = route_indexes[0]
+        idx2 = route_indexes[-1]    
+        ax.plot([x[idx1] , x[idx2] ], [y[idx1],  y[idx2] ],'k-',linewidth =8,color = 'red')
+        plt.title(f"The best ant's path cost = {path_cost}",fontsize=40)
+        ax.spines['bottom'].set_visible(False) 
+        ax.spines['left'].set_visible(False)   
+        
     
-#     system.run_system()
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.set_xticks([]) 
+        ax.set_yticks([]) 
+        plt.legend()
+
+    
+    
+    def draw_route_all(self,x,y):
+        import matplotlib.pyplot as plt
+        
+        path_cost = self.get_best_ant()[1]
+        fig, ax = plt.subplots(figsize = (25,14))
+        
+        
+        for ant in self.population.ants:
+            for route_indexes in ant.routes:
+                for i in range(len(route_indexes)-1):
+                    idx1 = route_indexes[i]
+                    idx2 = route_indexes[i+1]
+                    ax.plot([x[idx1], x[idx2]], [y[idx1], y[idx2]], 'k-',linewidth =0.01,color = 'blue')
+                idx1 = route_indexes[0]
+                idx2 = route_indexes[-1]    
+                ax.plot([x[idx1] , x[idx2] ], [y[idx1],  y[idx2] ],'k-',linewidth =0.01,color = 'blue')
+        
+        
+        
+        
+        route_indexes = self.get_best_ant()[0]
+
+        for i in range(len(x)):
+            ax.plot(x[i], y[i], marker='x', markersize=30)
+            ax.text(x[i]+0.2, y[i]+0.2, f'{i+1}',fontsize=40)
+        
+        for i in range(len(route_indexes)-1):
+            idx1 = route_indexes[i]
+            idx2 = route_indexes[i+1]
+            ax.plot([x[idx1], x[idx2]], [y[idx1], y[idx2]], 'k-',linewidth =0.01,color = 'blue')
+        idx1 = route_indexes[0]
+        idx2 = route_indexes[-1]    
+        ax.plot([x[idx1] , x[idx2] ], [y[idx1],  y[idx2] ],'k-',linewidth =0.01,color = 'blue')
+        plt.title(f"Ants' routes",fontsize=40)
+        ax.spines['bottom'].set_visible(False) 
+        ax.spines['left'].set_visible(False)   
+        
+    
+        ax.spines['top'].set_visible(False)
+        ax.spines['right'].set_visible(False)
+        ax.set_xticks([]) 
+        ax.set_yticks([]) 
+        plt.legend()
+
     
     
     
-#     system.visualize_path()
+    
+if __name__ == "__main__":
+
+    
+    FILE_PATH = 'cities_4.txt'
+    DIST_MATRIX = prepare_matrix(FILE_PATH)
+    PHEROMONES = init_pheromones(DIST_MATRIX)
+
+    system = System(population_size=10,
+                    cities_count=10,
+                    n_generations=200)
+    
+    system.run_system()
     
     
+    
+    system.visualize_path_all()
+    system.visualize_path_best()
+    system.visualize_path_all_no_best()
     
     
     

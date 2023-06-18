@@ -87,6 +87,7 @@ def prepare_matrix(path:str):
     return matrix
 
 
+        
 
 
 def init_pheromones(DIST_MATRIX):
