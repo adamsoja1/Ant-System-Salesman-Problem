@@ -368,6 +368,7 @@ class System:
         ax.set_yticks([]) 
         plt.legend()
 
+
     
     
     
@@ -375,7 +376,7 @@ class System:
 if __name__ == "__main__":
 
     
-    FILE_PATH = 'cities_4.txt'
+    FILE_PATH = 'src/cities_4.txt'
     DIST_MATRIX = prepare_matrix(FILE_PATH)
     PHEROMONES = init_pheromones(DIST_MATRIX)
 
