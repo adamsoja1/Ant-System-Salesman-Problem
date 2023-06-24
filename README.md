@@ -63,7 +63,7 @@ To run tests, run the following command
 
 You should see the following result:
 
-![image](/home/adam/Desktop/Ant-System-Salesman-Problem/examples/3.png)
+![image](./examples/3.png)
 
 
 
@@ -76,3 +76,4 @@ You should see the following result:
 ## Authors
 
 \- [@adamsoja1](https://github.com/adamsoja1)
+
