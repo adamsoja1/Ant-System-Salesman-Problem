@@ -287,6 +287,7 @@ class System:
         ax.set_xticks([]) 
         ax.set_yticks([]) 
         plt.legend()
+        
 
     
     
@@ -321,8 +322,8 @@ class System:
         ax.set_xticks([]) 
         ax.set_yticks([]) 
         plt.legend()
-
-    
+        plt.savefig('best_route.png')
+            
     
     def draw_route_all(self,x,y):
         import matplotlib.pyplot as plt

@@ -30,9 +30,23 @@ To use the Ant System Colony algorithm for solving the Traveling Salesman Proble
 
 1. Clone the repository: `git clone https://github.com/adamsoja1/Ant-System-Salesman-Problem`.
 2. Navigate to the project directory: `cd Ant-System-Salesman-Problem`.
+3. Install requirements to your python environment: ```pip install -r requirements.txt```.
+4. Modify cities_4.txt file to fit your x,y coordinates.
+5. Customize the algorithm parameters and components to fit your specific TSP instance.
+6. Run the algorithm: ```python3 src/ants_travel.py ``` or in spyder/jupyter and analyze the results.
+
+## Run with docker
+
+To run the Ant System Colony algorithm for solving the Traveling Salesman Problem in docker, follow these steps:
+
+1. Clone the repository: `git clone https://github.com/adamsoja1/Ant-System-Salesman-Problem`.
+2. Navigate to main directory: `cd Ant-System-Salesman-Problem`.
 3. Modify cities_4.txt file to fit your x,y coordinates.
 4. Customize the algorithm parameters and components to fit your specific TSP instance.
-5. Run the algorithm: ```python3 src/ants_travel.py ``` or in spyder/jupyter and analyze the results.
+5. Type in command window: ```docker build -t ants . ``` 
+6. On UNIX systems type: ```docker run -v $PWD:/code ants```, on windows: ```docker run -v %cd%:/code ants```
+
+
 
 
 ## Example of single run for specific cities coordinates
