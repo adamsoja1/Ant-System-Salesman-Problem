@@ -13,14 +13,12 @@ The algorithm is implemented using Python classes to represent the ants, the pop
 and the system.
 
 Usage:
-1. Define a distance matrix (2D array) representing the distances between cities.
+1. Define a distance matrix (2D array) representing the distances between cities by changing cities_4.txt.
 2. Create an instance of the System class, providing the population size, number of cities,
    and the number of generations (iterations).
-3. Call the run_system() method to execute the ACS algorithm.
+3. Call the run_system() method of System to execute the  algorithm.
 4. Use the visualization methods to visualize the routes taken by ants and the best solution found.
 
-Note: The algorithm assumes a symmetric distance matrix, where distance_matrix[i][j] equals the
-distance from city i to city j, and distance_matrix[j][i] equals the distance from city j to city i.
 
 Classes:
 --------
@@ -153,28 +151,22 @@ class Ant:
 
         self.beta = 5
         self.alpha = 1
-        
         self.cities_count = cities_count
         self.start_city = np.random.randint(0,cities_count-1)
-
         self.current_city = None
-
         self.routes = []
         self.visited_cities = []
         self.cities_to_visit = [i for i in range(cities_count)]
-
         self.visit(self.start_city)
 
     def visit(self, city: int):
         """Method for setting ant's visited city."""
-
         self.visited_cities.append(city)
         self.cities_to_visit.remove(city)
         self.current_city = city
         
     def total_cost(self):
         """Calculation of total cost of visited cities."""
-
         if len(self.visited_cities) == self.cities_count:
             route = self.visited_cities
             vals = []
@@ -184,7 +176,6 @@ class Ant:
             return np.sum(vals)
         else:
             raise ValueError("Length of visited cities isnt equal to count_cities")
-       
 
     def get_propabilities(self):
         """Calculation of propabilities for remaining cities_to_visit."""
@@ -196,21 +187,19 @@ class Ant:
         for i in self.cities_to_visit:
             distances.append(DIST_MATRIX[self.current_city][i])
             temp_phero.append(PHEROMONES[self.current_city][i])
-            
+
         distances = np.array(distances)
         distances = 1/distances
         distances = np.power(distances,self.beta)  
-        
         temp_phero = np.array(temp_phero)
         temp_phero = temp_phero**self.alpha
-        
         temp_sum = np.sum(distances*temp_phero)
-        
         a_ij = []
+
         for city in self.cities_to_visit:
             temp = (PHEROMONES[self.current_city][city]**self.alpha) * ((1/DIST_MATRIX[self.current_city][city]) ** self.beta)
             a_ij.append(temp/temp_sum)
-        
+
         probs = []
         for i in range(len(a_ij)):
             probs.append(a_ij[i]/np.sum(a_ij))
@@ -234,8 +223,7 @@ class Ant:
     def move(self):
         """Moving ant to a city based on decision."""
         for i in range(len(self.cities_to_visit)):
-            self.visit(self.decision())
-                
+            self.visit(self.decision())    
         
     def create_pher_matrix(self):
         """Creates matrix of pheromones level between cities (indexes)"""
@@ -254,7 +242,6 @@ class Ant:
                 pheromone_matrix[j][i] = dist
         return pheromone_matrix
     
-
     def create_temporary_pheromones(self):
         """Creates temporary pheromones matrix dictionary. """
         ant_phero = self.create_pher_matrix()
@@ -266,7 +253,6 @@ class Ant:
         ant_phero[self.visited_cities[0]][self.visited_cities[-1]] += (1/self.total_cost())
         cities = self.visited_cities
         return ant_phero
-
 
     def reset_to_default(self):
         """Resetting ant to default. """
@@ -607,8 +593,6 @@ class System:
         plt.title(f"The best ant's path cost = {path_cost}",fontsize=40)
         ax.spines['bottom'].set_visible(False) 
         ax.spines['left'].set_visible(False)   
-        
-    
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
         ax.set_xticks([]) 
@@ -633,7 +617,6 @@ class System:
         
         path_cost = self.get_best_ant()[1]
         fig, ax = plt.subplots(figsize = (25,14))
-        
         
         for ant in self.population.ants:
             for route_indexes in ant.routes:
@@ -661,8 +644,6 @@ class System:
         plt.title(f"Ants' routes",fontsize=40)
         ax.spines['bottom'].set_visible(False) 
         ax.spines['left'].set_visible(False)   
-        
-    
         ax.spines['top'].set_visible(False)
         ax.spines['right'].set_visible(False)
         ax.set_xticks([]) 
@@ -672,7 +653,6 @@ class System:
     
 if __name__ == "__main__":
 
-    
     FILE_PATH = 'src/cities_4.txt'
     DIST_MATRIX = prepare_matrix(FILE_PATH)
     PHEROMONES = init_pheromones(DIST_MATRIX)
@@ -682,9 +662,6 @@ if __name__ == "__main__":
                     n_generations=200)
     
     system.run_system()
-    
-    
-    
     system.visualize_path_all()
     system.visualize_path_best()
     system.visualize_path_all_no_best()
